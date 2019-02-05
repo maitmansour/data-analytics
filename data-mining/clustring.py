@@ -12,7 +12,7 @@ R_square_clustering = SourceFileLoader("r_square", "scripts/R_square_clustering.
 # read input text and put data inside a data frame
 fruits = pd.read_csv('data/fruit_data_with_colors.txt', sep='\t')
 X = pd.read_csv('data/fruit_data_with_colors.txt', sep='\t')
-X.drop(["fruit_name","fruit_subtype"], axis = 1, inplace = True) 
+X.drop(["fruit_name","fruit_subtype","fruit_label"], axis = 1, inplace = True) 
 
 scaler = MinMaxScaler()
 X_norm=scaler.fit_transform(X)
@@ -67,7 +67,7 @@ plt . savefig ('plot/k-means_ground_truth')
 plt . close ( fig )
 
 # metrique r2
-lst_k=range(2,11)
+lst_k=range(2,10)
 lst_rsq = []
 for k in lst_k:
 	est=KMeans(n_clusters=k)
