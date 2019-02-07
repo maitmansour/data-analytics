@@ -5,6 +5,8 @@ from mlxtend.frequent_patterns import apriori
 from mlxtend.frequent_patterns import association_rules
 from scipy.io import arff
 import pandas as pd
+from itertools import groupby
+import numpy as np
 
 # read data from file
 data = arff.loadarff('data/pull/vote.arff')
@@ -30,14 +32,29 @@ vote_one_hot.drop(vote_one_hot.filter(regex='_\?$',axis=1).columns,axis=1,inplac
 
 frequent_itemsets=apriori(vote_one_hot, min_support=0.4)
 
-print(frequent_itemsets)
+#print(frequent_itemsets)
 
 
 # ici, on affiche plus de détails sur les item sets
 frequent_itemsets_details = apriori(vote_one_hot, min_support=0.4, use_colnames=True)
 frequent_itemsets_details['length'] = frequent_itemsets_details['itemsets'].apply(lambda x: len(x))
 
+print("***** Frequency for each Itemset ******")
+frequent_itemsets_length = frequent_itemsets_details['length']
+frequent_itemsets_count=list(set(frequent_itemsets_length))
+frequent_itemsets_length_frequency=[len(list(group)) for key, group in groupby(frequent_itemsets_length)]
 
+print(np.c_[frequent_itemsets_count,frequent_itemsets_length_frequency])
+
+#***** Frequency for each Itemset ******
+#[[ 1 27]
+# [ 2 41]
+# [ 3 33]
+# [ 4 14]
+# [ 5  3]]
+
+
+#print(frequent_itemsets_count)
 
 #calculer les itemsets avec apriori
 #calculer les itemset frequet freequent_item_sets = apriori(vote one hot)
