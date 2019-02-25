@@ -62,17 +62,3 @@ print(association_rules(frequent_itemsets, metric="confidence", min_threshold=0.
 #1                 (7)         (48)            0.581609            0.613793  0.531034    0.913043  1.487543  0.174047    4.441379
 #2                (12)          (9)            0.478161            0.567816  0.448276    0.937500  1.651063  0.176768    6.914943
 # On a obtenu 192 régles
-
-
-#print(frequent_itemsets_count)
-
-#calculer les itemsets avec apriori
-#calculer les itemset frequet freequent_item_sets = apriori(vote one hot)
-
-
-
-
-# check that there is no rule implying Republicans
-#filter(lambda x: "Class_'republican'" in x,rules['antecedents'])
-#filter(lambda x: "Class_'republican'" in x,rules['consequents'])
-
