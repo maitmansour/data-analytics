@@ -32,8 +32,11 @@ data = pd.read_csv('data/eurostat/eurostat-2013.csv')
 print("\nEurostat Head \n")
 print( data .head())
 
+# data/population
 data["tet00002 (2013)"]=data["tet00002 (2013)"]/data["tps00001 (2013)"]
 data["tsc00004 (2012)"]=data["tsc00004 (2012)"]/data["tps00001 (2013)"]
+
+# remove population data
 del data["tps00001 (2013)"]
 
 print("\nEurostat Head \n")
