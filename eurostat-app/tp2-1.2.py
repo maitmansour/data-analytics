@@ -53,6 +53,16 @@ print(np.c_[frequent_itemsets_count,frequent_itemsets_length_frequency])
 # [ 4 14]
 # [ 5  3]]
 
+print("***** Association rules ******")
+
+print(association_rules(frequent_itemsets, metric="confidence", min_threshold=0.9))
+#***** Association rules ******
+#  antecedents  consequents  antecedent support  consequent support   support  confidence      lift  leverage  conviction
+#0                (12)          (7)            0.478161            0.581609  0.432184    0.903846  1.554044  0.154081    4.351264
+#1                 (7)         (48)            0.581609            0.613793  0.531034    0.913043  1.487543  0.174047    4.441379
+#2                (12)          (9)            0.478161            0.567816  0.448276    0.937500  1.651063  0.176768    6.914943
+# On a obtenu 192 régles
+
 
 #print(frequent_itemsets_count)
 
