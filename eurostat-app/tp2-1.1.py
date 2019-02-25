@@ -3,6 +3,7 @@
 
 # librairies import
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
 #correlation_circle
 def correlation_circle(df,nb_var,x_axis,y_axis):
@@ -42,6 +43,22 @@ del data["tps00001 (2013)"]
 print("\nEurostat Head \n")
 print( data .head())
 
+
+# StandarScaller Standardize features by removing the mean and scaling to unit variance (https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler)
+# We have to standrize our data, because there is a very large defirence between data (eg. 0.3 and -5 at tec00115 AT and CY)
+
+scaler = StandardScaler()
+columns_to_standrize=['','','','','','','']
+scaled_features = data.copy()
+
+col_names = ["tec00115 (2013)","teilm (F dec 2013)","teilm (M dec 2013)","tec00118 (2013)","teimf00118 (dec 2013)","tsdsc260(2013)","tet00002 (2013)","tsc00001 (2011)","tsc00004 (2012)"]
+features = scaled_features[col_names]
+scaler = StandardScaler().fit(features.values)
+features = scaler.transform(features.values)
+
+print("\nEurostat Head Standrized\n")
+scaled_features[col_names] = features
+print(scaled_features)
 # print centroids associated with several countries
 #lst_countries=['EL','FR','DE','US']
 ## centroid of the entire dataset
