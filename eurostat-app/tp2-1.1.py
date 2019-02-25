@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+# librairies import
+import pandas as pd
+
 #correlation_circle
 def correlation_circle(df,nb_var,x_axis,y_axis):
     fig, axes = plt.subplots(figsize=(8,8))
@@ -21,14 +24,29 @@ def correlation_circle(df,nb_var,x_axis,y_axis):
 
 
 
+# read input text and put data inside a data frame
+data = pd.read_csv('data/eurostat/eurostat-2013.csv')
+
+
+# data head
+print("\nEurostat Head \n")
+print( data .head())
+
+data["tet00002 (2013)"]=data["tet00002 (2013)"]/data["tps00001 (2013)"]
+data["tsc00004 (2012)"]=data["tsc00004 (2012)"]/data["tps00001 (2013)"]
+del data["tps00001 (2013)"]
+
+print("\nEurostat Head \n")
+print( data .head())
+
 # print centroids associated with several countries
-lst_countries=['EL','FR','DE','US']
-# centroid of the entire dataset
-# est: KMeans model fit to the dataset
-print est.cluster_centers_
-for name in lst_countries:
-    num_cluster = est.labels_[y.loc[y==name].index][0]
-    print 'Num cluster for '+name+': '+str(num_cluster)
-    print '\tlist of countries: '+', '.join(y.iloc[np.where(est.labels_==num_cluster)].values)
-    print '\tcentroid: '+str(est.cluster_centers_[num_cluster])
+#lst_countries=['EL','FR','DE','US']
+## centroid of the entire dataset
+## est: KMeans model fit to the dataset
+#print est.cluster_centers_
+#for name in lst_countries:
+#    num_cluster = est.labels_[y.loc[y==name].index][0]
+#    print 'Num cluster for '+name+': '+str(num_cluster)
+#    print '\tlist of countries: '+', '.join(y.iloc[np.where(est.labels_==num_cluster)].values)
+#    print '\tcentroid: '+str(est.cluster_centers_[num_cluster])
 
