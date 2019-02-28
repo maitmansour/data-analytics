@@ -3,7 +3,11 @@
 
 # librairies import
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import StandardScaler
+from sklearn.decomposition import PCA
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 #correlation_circle
 def correlation_circle(df,nb_var,x_axis,y_axis):
@@ -44,29 +48,34 @@ print("\nEurostat Head \n")
 print( data .head())
 
 
-# StandarScaller Standardize features by removing the mean and scaling to unit variance (https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler)
+# StandarScaller Standardize X_norm by removing the mean and scaling to unit variance (https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler)
 # We have to standrize our data, because there is a very large defirence between data (eg. 0.3 and -5 at tec00115 AT and CY)
 
 scaler = StandardScaler()
-columns_to_standrize=['','','','','','','']
-scaled_features = data.copy()
+scaled_X_norm = data.copy()
 
 col_names = ["tec00115 (2013)","teilm (F dec 2013)","teilm (M dec 2013)","tec00118 (2013)","teimf00118 (dec 2013)","tsdsc260(2013)","tet00002 (2013)","tsc00001 (2011)","tsc00004 (2012)"]
-features = scaled_features[col_names]
-scaler = StandardScaler().fit(features.values)
-features = scaler.transform(features.values)
+X_norm = scaled_X_norm[col_names]
+scaler = StandardScaler().fit(X_norm.values)
+X_norm = scaler.transform(X_norm.values)
 
 print("\nEurostat Head Standrized\n")
-scaled_features[col_names] = features
-print(scaled_features)
-# print centroids associated with several countries
-#lst_countries=['EL','FR','DE','US']
-## centroid of the entire dataset
-## est: KMeans model fit to the dataset
-#print est.cluster_centers_
-#for name in lst_countries:
-#    num_cluster = est.labels_[y.loc[y==name].index][0]
-#    print 'Num cluster for '+name+': '+str(num_cluster)
-#    print '\tlist of countries: '+', '.join(y.iloc[np.where(est.labels_==num_cluster)].values)
-#    print '\tcentroid: '+str(est.cluster_centers_[num_cluster])
+scaled_X_norm[col_names] = X_norm
+print(scaled_X_norm)
 
+# Get Principal Components
+acp = PCA(n_components=4)
+principal_components=acp.fit_transform(X_norm)
+print(principal_components)
+
+y=['Principal Component 1', 'Principal Component 2', 'Principal Component 3', 'Principal Component 4']
+acpDf = pd.DataFrame(data = principal_components, columns =y )
+finalDf = pd.concat([acpDf, data[['Code']]], axis = 1)
+Df=acpDf.astype(float)
+
+# Save Principal Components
+g=sns.lmplot("Principal Component 1","Principal Component 2",hue='Code',data=finalDf,fit_reg=False,scatter=True,size=7)
+plt.savefig('plot/principal_component_1_and2.png')
+
+g=sns.lmplot("Principal Component 3","Principal Component 4",hue='Code',data=finalDf,fit_reg=False,scatter=True,size=7)
+plt.savefig('plot/principal_component_3_and4.png')
