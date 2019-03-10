@@ -12,14 +12,14 @@ X			= data.ix[:,['houseSize','lotSize','bedrooms','granite','bathroom']]
 Y			= data.ix[:,'sellingPrice']
 print(data)
 
+# Get Model
 ridge = Ridge()
 ridge.fit(X, Y)
-
-coeff = ridge.coef_
+model = ridge.coef_
 print('\nModel :\n')
-print(coeff)
+print(model)
 
-
+# Predict house price
 prediction_data = [[3198, 9669, 5, 1, 1]]
 predicted_price = ridge.predict(prediction_data)
 print("Real price : 217894$\nPre. price : {:6.0f}$".format(predicted_price[0]))
