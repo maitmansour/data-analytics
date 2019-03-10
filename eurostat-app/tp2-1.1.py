@@ -12,6 +12,7 @@ from sklearn.cluster import KMeans
 from scipy.cluster.hierarchy import cophenet
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import dendrogram, linkage
+
 # Correlation_circle
 def correlation_circle(df,nb_var,x_axis,y_axis):
     fig, axes = plt.subplots(figsize=(8,8))
@@ -52,16 +53,12 @@ def hierarchical_clustering(data):
     plt.title('Hierarchical Clustering Dendrogram')
     plt.xlabel('Country number')
     plt.ylabel('Distances')
-    dendrogram(
-        Z,
-        leaf_rotation=90.,  # rotates the x axis labels
-        leaf_font_size=8.,  # font size for the x axis labels
-    )
+    dendrogram(Z,leaf_rotation=90.,leaf_font_size=8.,)
     plt.savefig('plot/hierarchical_clustering_dendogram.png')
+
 
 # read input text and put data inside a data frame
 data = pd.read_csv('data/eurostat/eurostat-2013.csv')
-
 
 # data head
 print("\nEurostat Head \n")
@@ -76,7 +73,6 @@ del data["tps00001 (2013)"]
 
 print("\nEurostat Head \n")
 print( data .head())
-
 
 # StandarScaller Standardize X_norm by removing the mean and scaling to unit variance (https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler)
 # We have to standrize our data, because there is a very large defirence between data (eg. 0.3 and -5 at tec00115 AT and CY)
