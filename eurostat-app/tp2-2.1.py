@@ -12,7 +12,9 @@ from sklearn.model_selection import cross_val_predict
 from sklearn import metrics
 from scipy.io import arff
 import pandas as pd
+import numpy as np
 from sklearn.preprocessing import StandardScaler
+from sklearn.impute import SimpleImputer
 
 dummycl = DummyClassifier(strategy="most_frequent")
 gmb = GaussianNB()
@@ -61,3 +63,7 @@ scaler = StandardScaler();
 scaler.fit(data_num) 
 data_num = scaler.transform(data_num)
 
+# Replace nan data (MEAN)
+imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+imputer.fit(data_num)
+data_num = imputer.transform(data_num)
