@@ -24,7 +24,7 @@ def correlation_circle(df,nb_var,x_axis,y_axis):
     # add a circle
     cercle = plt.Circle((0,0),1,color='blue',fill=False)
     axes.add_artist(cercle)
-    plt.savefig('acp_correlation_circle_axes_'+str(x_axis)+'_'+str(y_axis))
+    plt.savefig('plot/acp_correlation_circle_axes_'+str(x_axis)+'_'+str(y_axis))
     plt.close(fig)
 
 
@@ -74,8 +74,23 @@ finalDf = pd.concat([acpDf, data[['Code']]], axis = 1)
 Df=acpDf.astype(float)
 
 # Save Principal Components
-g=sns.lmplot("Principal Component 1","Principal Component 2",hue='Code',data=finalDf,fit_reg=False,scatter=True,size=7)
+g=sns.lmplot("Principal Component 1","Principal Component 2",hue='Code',data=finalDf,fit_reg=False,scatter=True,height=7)
 plt.savefig('plot/principal_component_1_and2.png')
 
-g=sns.lmplot("Principal Component 3","Principal Component 4",hue='Code',data=finalDf,fit_reg=False,scatter=True,size=7)
+g=sns.lmplot("Principal Component 3","Principal Component 4",hue='Code',data=finalDf,fit_reg=False,scatter=True,height=7)
 plt.savefig('plot/principal_component_3_and4.png')
+
+# Get variance
+variance= acp.explained_variance_ratio_
+
+# Get Correlation between variables 
+eigenvalues = 4/(4*acp.explained_variance_ratio_)
+sqrt_eigenvalues = np.sqrt(eigenvalues)
+corvar = np.zeros((9,9))
+for k in range(4):
+    corvar[:,k] = acp.components_[k,:] * sqrt_eigenvalues[k]
+print("\nCorrelation between variables\n")
+print(corvar)
+
+# Draw correlation circle
+correlation_circle(nb_var=4,df=data,x_axis=0,y_axis=1)
