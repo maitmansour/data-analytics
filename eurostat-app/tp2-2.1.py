@@ -52,7 +52,7 @@ print("Shape : ",crx.shape)
 # Attribute to predict : class
 # Types : numeric, categorial
 
-# Equilibrate rdv (0,1) data
+# Equilibrate class (negative,positive) data
 occurences_classes=crx['class'].value_counts()
 print("\n Frequency : \n",occurences_classes)
 #'negative'    383
