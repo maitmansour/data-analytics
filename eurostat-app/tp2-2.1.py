@@ -47,4 +47,11 @@ data_cat = crx.select_dtypes(exclude='float64').drop('class',axis=1)
 print("Shape : ",crx.shape)
 # Shape :  (690, 16)
 # Attribute to predict : class
+# Types : numeric, categorial
+
+# Equilibrate rdv (0,1) data
+occurences_classes=crx['class'].value_counts()
+print("\n Frequency : \n",occurences_classes)
+#'negative'    383
+#'positive'    307
 
