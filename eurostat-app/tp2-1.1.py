@@ -9,7 +9,9 @@ from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.cluster import KMeans
-
+from scipy.cluster.hierarchy import cophenet
+from scipy.spatial.distance import pdist
+from scipy.cluster.hierarchy import dendrogram, linkage
 # Correlation_circle
 def correlation_circle(df,nb_var,x_axis,y_axis):
     fig, axes = plt.subplots(figsize=(8,8))
@@ -28,8 +30,8 @@ def correlation_circle(df,nb_var,x_axis,y_axis):
     plt.savefig('plot/acp_correlation_circle_axes_'+str(x_axis)+'_'+str(y_axis))
     plt.close(fig)
 
-# K-means Clustring
-def kmeans_clustring(data,max_classes):
+# K-means clustering
+def kmeans_clustering(data,max_classes):
     del data['Nom']
     del data['Code']
     sum_of_se = {}
@@ -42,6 +44,20 @@ def kmeans_clustring(data,max_classes):
     plt.xlabel("Number of clusters")
     plt.ylabel("Sum of Squared errors")
     plt.savefig('plot/k-means_clusters.png')
+
+def hierarchical_clustering(data):
+    Z = linkage(data, 'ward')
+    c, coph_dists = cophenet(Z, pdist(Df))
+    plt.figure(figsize=(8, 8))
+    plt.title('Hierarchical Clustering Dendrogram')
+    plt.xlabel('Country number')
+    plt.ylabel('Distances')
+    dendrogram(
+        Z,
+        leaf_rotation=90.,  # rotates the x axis labels
+        leaf_font_size=8.,  # font size for the x axis labels
+    )
+    plt.savefig('plot/hierarchical_clustering_dendogram.png')
 
 # read input text and put data inside a data frame
 data = pd.read_csv('data/eurostat/eurostat-2013.csv')
@@ -109,5 +125,8 @@ print(corvar)
 # Draw correlation circle
 correlation_circle(nb_var=4,df=data,x_axis=0,y_axis=1)
 
-# k-means clustering
-kmeans_clustring(data=data,max_classes=15)
+# K-means clustering
+kmeans_clustering(data=data,max_classes=15)
+
+# Hierarchical Clustering Dendrogram
+hierarchical_clustering(data=data)
