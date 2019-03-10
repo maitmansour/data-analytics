@@ -12,6 +12,7 @@ from sklearn.model_selection import cross_val_predict
 from sklearn import metrics
 from scipy.io import arff
 import pandas as pd
+from sklearn.preprocessing import StandardScaler
 
 dummycl = DummyClassifier(strategy="most_frequent")
 gmb = GaussianNB()
@@ -54,4 +55,9 @@ occurences_classes=crx['class'].value_counts()
 print("\n Frequency : \n",occurences_classes)
 #'negative'    383
 #'positive'    307
+
+# Normlize numerique data
+scaler = StandardScaler();
+scaler.fit(data_num) 
+data_num = scaler.transform(data_num)
 
