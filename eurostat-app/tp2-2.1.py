@@ -75,10 +75,32 @@ Y = label_encoder.fit_transform(crx["class"])
 
 # Calcul et affichage des scores en appelant la methode accuracy_score fournit dans le tp
 print('\n Accuracy Score  : \n')
-scores = accuracy_score(lst_classif,lst_classif_names,data_num,Y)
+accuracy_score(lst_classif,lst_classif_names,data_num,Y)
 
 #Accuracy of Dummy classifier on cross-validation: 0.56 (+/- 0.00)
 #Accuracy of Naive Bayes classifier on cross-validation: 0.71 (+/- 0.08)
 #Accuracy of Decision tree classifier on cross-validation: 0.68 (+/- 0.10)
 #Accuracy of Logistic regression classifier on cross-validation: 0.75 (+/- 0.09)
 #Accuracy of SVM classifier on cross-validation: 0.74 (+/- 0.10)
+
+# Replace none values with most frequent values
+imputer= SimpleImputer(missing_values="'none'", strategy='most_frequent')
+data_cat = imputer.fit_transform(data_cat)
+
+# Replace ? values with most frequent values
+imputer = SimpleImputer(missing_values='?', strategy='most_frequent')
+data_cat = imputer.fit_transform(data_cat)
+
+# Data descritization
+categorical_columns=["A1","A4","A5","A6","A7","A9","A10","A12","A13"]
+data_cat = pd.DataFrame(data_cat, columns=categorical_columns);
+data_cat = pd.get_dummies(data_cat)
+
+#Calcul des scores pour les donnees categorical
+print('\n Accuracy Score  : \n')
+accuracy_score(lst_classif,lst_classif_names,data_cat,Y)
+#Accuracy of Dummy classifier on cross-validation: 0.56 (+/- 0.00)
+#Accuracy of Naive Bayes classifier on cross-validation: 0.64 (+/- 0.11)
+#Accuracy of Decision tree classifier on cross-validation: 0.81 (+/- 0.22)
+#Accuracy of Logistic regression classifier on cross-validation: 0.84 (+/- 0.26)
+#Accuracy of SVM classifier on cross-validation: 0.85 (+/- 0.28
