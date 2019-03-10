@@ -43,4 +43,8 @@ data_num = crx.select_dtypes(include='float64')
 # Replace missing values by mean and discretize categorical values
 data_cat = crx.select_dtypes(exclude='float64').drop('class',axis=1)
 
+# Get data Shape
+print("Shape : ",crx.shape)
+# Shape :  (690, 16)
+# Attribute to predict : class
 
