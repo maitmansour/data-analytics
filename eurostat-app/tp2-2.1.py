@@ -15,6 +15,7 @@ import pandas as pd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import LabelEncoder
 
 dummycl = DummyClassifier(strategy="most_frequent")
 gmb = GaussianNB()
@@ -67,3 +68,17 @@ data_num = scaler.transform(data_num)
 imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
 imputer.fit(data_num)
 data_num = imputer.transform(data_num)
+
+# Transform categorial data
+label_encoder = LabelEncoder()
+Y = label_encoder.fit_transform(crx["class"])
+
+# Calcul et affichage des scores en appelant la methode accuracy_score fournit dans le tp
+print('\n Accuracy Score  : \n')
+scores = accuracy_score(lst_classif,lst_classif_names,data_num,Y)
+
+#Accuracy of Dummy classifier on cross-validation: 0.56 (+/- 0.00)
+#Accuracy of Naive Bayes classifier on cross-validation: 0.71 (+/- 0.08)
+#Accuracy of Decision tree classifier on cross-validation: 0.68 (+/- 0.10)
+#Accuracy of Logistic regression classifier on cross-validation: 0.75 (+/- 0.09)
+#Accuracy of SVM classifier on cross-validation: 0.74 (+/- 0.10)
