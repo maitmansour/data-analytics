@@ -8,8 +8,9 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
 import seaborn as sns
+from sklearn.cluster import KMeans
 
-#correlation_circle
+# Correlation_circle
 def correlation_circle(df,nb_var,x_axis,y_axis):
     fig, axes = plt.subplots(figsize=(8,8))
     axes.set_xlim(-1,1)
@@ -27,7 +28,20 @@ def correlation_circle(df,nb_var,x_axis,y_axis):
     plt.savefig('plot/acp_correlation_circle_axes_'+str(x_axis)+'_'+str(y_axis))
     plt.close(fig)
 
-
+# K-means Clustring
+def kmeans_clustring(data,max_classes):
+    del data['Nom']
+    del data['Code']
+    sum_of_se = {}
+    for k in range (1, max_classes):
+      kmeans_model = KMeans(n_clusters=k, random_state=1).fit(data.iloc[:, :])
+      labels = kmeans_model.labels_
+      sum_of_se[k] = kmeans_model.inertia_
+    plt.figure()
+    plt.plot(list(sum_of_se.keys()), list(sum_of_se.values()))
+    plt.xlabel("Number of clusters")
+    plt.ylabel("Sum of Squared errors")
+    plt.savefig('plot/k-means_clusters.png')
 
 # read input text and put data inside a data frame
 data = pd.read_csv('data/eurostat/eurostat-2013.csv')
@@ -94,3 +108,6 @@ print(corvar)
 
 # Draw correlation circle
 correlation_circle(nb_var=4,df=data,x_axis=0,y_axis=1)
+
+# k-means clustering
+kmeans_clustring(data=data,max_classes=15)
